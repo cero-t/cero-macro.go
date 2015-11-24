@@ -3,23 +3,35 @@ package processor
 import (
 	"../vjoy"
 	"time"
-	"log"
 )
 
 const frame int64 = 1000000000 / 60
-var vjoyId uint = 1
 
-func Process(operations *[]Operation) {
-	log.Println("START")
+func ProcessPair(vjoyId1 uint, operations1 *[]Operation, vjoyId2 uint, operations2 *[]Operation) {
+	start := time.Now().UnixNano() + 1000000000
+	go doProcess(vjoyId1, operations1, start)
+	go doProcess(vjoyId2, operations2, start)
+}
+
+func ProcessSingle(vjoyId uint, operations *[]Operation) {
+	doProcess(vjoyId, operations, 0)
+}
+
+func doProcess(vjoyId uint, operations *[]Operation, start int64) {
+	preSleep := start - time.Now().UnixNano()
+	if preSleep > 0 {
+		time.Sleep(time.Duration(preSleep))
+	}
+
 	var delta int64 = 0
-	var afterLastSleep int64 = time.Now().UnixNano()
+	afterLastSleep := time.Now().UnixNano()
 
 	for _, ope := range *operations {
 		if &ope == nil {
 			continue
 		}
 
-		processOperation(ope);
+		processOperation(vjoyId, ope);
 
 		// adjust 60fps
 		beforeSleep := time.Now().UnixNano()
@@ -37,10 +49,9 @@ func Process(operations *[]Operation) {
 	vjoy.ReleaseMK(vjoyId)
 	vjoy.ReleaseHK(vjoyId)
 	vjoy.Direction5(vjoyId)
-	log.Println("END")
 }
 
-func processOperation(operation Operation) {
+func processOperation(vjoyId uint, operation Operation) {
 	if (operation.Direction != 0) {
 		if operation.Direction == 1 {
 			vjoy.Direction1(vjoyId)

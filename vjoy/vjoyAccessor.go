@@ -1,26 +1,27 @@
 package vjoy
 
 import (
-	"log"
 	"time"
+	"errors"
 )
 
-func Acuire(vjoyId uint) {
+func Acuire(vjoyId uint) error {
 	loadDll()
 
 	status := getVJDStatus(vjoyId)
 	if status != 1 {
-		log.Println("Vjoy is not free")
-		log.Fatal(status)
+		return errors.New("Vjoy [" + string(vjoyId) + "] is not free")
 	}
 
 	acquired := acquireVJD(vjoyId)
 	if !acquired {
-		log.Fatal("Vjoy cannot be acquired")
+		return errors.New("Vjoy [" + string(vjoyId) + "] cannot be acquired")
 	}
 
 	time.Sleep(50 * time.Millisecond)
 	resetVJD(vjoyId)
+
+	return nil
 }
 
 func axis(vjoyId uint, x uint, y uint) bool {

@@ -5,7 +5,6 @@ import (
 	"strings"
 	"regexp"
 	"strconv"
-	"log"
 )
 
 var (

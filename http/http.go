@@ -27,7 +27,7 @@ func init() {
 	formTemplate = tmpl
 }
 
-func routes(requestHandler func(body *string)) (mux *http.ServeMux) {
+func handle(requestHandler func(player1 *string, player2 *string) string) (mux *http.ServeMux) {
 	mux = http.NewServeMux()
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		var form MacroForm
@@ -35,7 +35,7 @@ func routes(requestHandler func(body *string)) (mux *http.ServeMux) {
 			r.ParseForm()
 			player1 := r.PostForm.Get("player1")
 			player2 := r.PostForm.Get("player2")
-			requestHandler(&player1)
+			requestHandler(&player1, &player2)
 
 			form = MacroForm{player1, player2}
 		} else {
@@ -52,7 +52,7 @@ func routes(requestHandler func(body *string)) (mux *http.ServeMux) {
 	return
 }
 
-func Server(requestHandler func(body *string)) {
+func Server(requestHandler func(player1 *string, player2 *string) string) {
 	ch := make(chan error)
 	listener, err := net.Listen("tcp", ":8080")
 	if err != nil {
@@ -60,7 +60,7 @@ func Server(requestHandler func(body *string)) {
 	}
 
 	go func() {
-		mux := routes(requestHandler)
+		mux := handle(requestHandler)
 		ch <- http.Serve(listener, mux)
 	}()
 
