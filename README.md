@@ -2,23 +2,27 @@
 Cero-macro is joystick macro runner for Windows applications.
 You can edit and run any kind of joystick macros.
 
+![screenshot](https://raw.githubusercontent.com/wiki/cero-t/cero-macro.go/images/screenshot1.png "Screen Shot")
+
 ## Why cero-macro?
 Some kinds of games block simple keyboard macros such as WSH program or AutoHotKey.
 But they don't block joystick control using original device driver like vJoy.
 
-vJoy : http://vjoystick.sourceforge.net/site/
+vJoy : <http://vjoystick.sourceforge.net/site/>
 
 Cero-macro uses vJoy SDK, or Cero-macro is a kind of front-end for vJoy SDK.
 
 ## How to use?
 
 1. First of all, setup vJoy v2.0 or lator.
-2. Download macro.exe from download link.
-3. Just run macro.exe.
-4. Open http://localhost:8080/ in any browser.
-5. Input some macros in the textboxes of "player1" and "player2".
- * Both or one of the textboxes should be filled.
-6. Push "submit" button then wait and see!
+2. Download macro.exe from release page.
+3. Download vJoyInterface.dll from this page or vJoy official site (vJoy SDK).
+4. Place macro.exe and vJoyInterface.dll on the same directory.
+5. Run macro.exe.
+6. Open <http://localhost:8080/> in any browser.
+7. Input some macros in the textboxes of "player1" and "player2". Both or one of the textboxes should be filled.
+8. Push "submit" button then wait and see!
+
 
 ## Macro references (currently for fighting game only)
 
