@@ -8,5 +8,8 @@ type State struct {
 	lk        bool
 	mk        bool
 	hk        bool
+	pause     bool
+	save      bool
+	reload    bool
 	frames    uint16
 }

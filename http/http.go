@@ -30,23 +30,20 @@ func init() {
 func handle(requestHandler func(player1 *string, player2 *string) string) (mux *http.ServeMux) {
 	mux = http.NewServeMux()
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		var form MacroForm
 		if r.Method == "POST" {
 			r.ParseForm()
 			player1 := r.PostForm.Get("player1")
 			player2 := r.PostForm.Get("player2")
 			requestHandler(&player1, &player2)
-
-			form = MacroForm{player1, player2}
+			fmt.Fprintf(w, "OK")
 		} else {
-			form = MacroForm{"",""}
+			_err := formTemplate.Execute(w, MacroForm{"",""})
+			if _err != nil {
+				log.Println("Could not execute template.")
+				log.Println(_err)
+			}
 		}
 
-		_err := formTemplate.Execute(w, form)
-		if _err != nil {
-			log.Println("Could not execute template.")
-			log.Println(_err)
-		}
 	})
 
 	return

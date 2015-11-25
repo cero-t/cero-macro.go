@@ -48,6 +48,9 @@ func doProcess(vjoyId uint, operations *[]Operation, start int64) {
 	vjoy.ReleaseLK(vjoyId)
 	vjoy.ReleaseMK(vjoyId)
 	vjoy.ReleaseHK(vjoyId)
+	vjoy.ReleasePause(vjoyId)
+	vjoy.ReleaseSave(vjoyId)
+	vjoy.ReleaseReload(vjoyId)
 	vjoy.Direction5(vjoyId)
 }
 
@@ -119,6 +122,30 @@ func processOperation(vjoyId uint, operation Operation) {
 			vjoy.PushHK(vjoyId)
 		} else {
 			vjoy.ReleaseHK(vjoyId)
+		}
+	}
+
+	if (operation.Pause != 0) {
+		if (operation.Pause == 1) {
+			vjoy.PushPause(vjoyId)
+		} else {
+			vjoy.ReleasePause(vjoyId)
+		}
+	}
+
+	if (operation.Save != 0) {
+		if (operation.Save == 1) {
+			vjoy.PushSave(vjoyId)
+		} else {
+			vjoy.ReleaseSave(vjoyId)
+		}
+	}
+
+	if (operation.Reload != 0) {
+		if (operation.Reload == 1) {
+			vjoy.PushReload(vjoyId)
+		} else {
+			vjoy.ReleaseReload(vjoyId)
 		}
 	}
 }

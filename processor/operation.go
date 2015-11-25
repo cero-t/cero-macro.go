@@ -8,5 +8,8 @@ type Operation struct {
 	Lk        int8
 	Mk        int8
 	Hk        int8
+	Pause     int8
+	Save      int8
+	Reload    int8
 	Frames    uint16
 }

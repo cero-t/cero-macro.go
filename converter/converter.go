@@ -44,6 +44,12 @@ func lineToState(line *string) *State {
 			state.mk = true
 		} else if v == "hk" {
 			state.hk = true
+		} else if v == "pause" {
+			state.pause = true
+		} else if v == "save" {
+			state.save = true
+		} else if v == "reload" {
+			state.reload = true
 		}
 	}
 
@@ -110,6 +116,27 @@ func LinesToOperations(lines *[]string) *[]processor.Operation {
 				operations[i].Hk = 1
 			} else {
 				operations[i].Hk = -1
+			}
+		}
+		if lastState.pause != state.pause {
+			if state.pause {
+				operations[i].Pause = 1
+			} else {
+				operations[i].Pause = -1
+			}
+		}
+		if lastState.save != state.save {
+			if state.save {
+				operations[i].Save = 1
+			} else {
+				operations[i].Save = -1
+			}
+		}
+		if lastState.reload != state.reload {
+			if state.reload {
+				operations[i].Reload = 1
+			} else {
+				operations[i].Reload = -1
 			}
 		}
 

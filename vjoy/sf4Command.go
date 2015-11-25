@@ -83,3 +83,28 @@ func PushHK(vjoyId uint) bool {
 func ReleaseHK(vjoyId uint) bool {
 	return release(vjoyId, 8)
 }
+
+func PushPause(vjoyId uint) bool {
+	return push(vjoyId, 10)
+}
+
+func ReleasePause(vjoyId uint) bool {
+	return release(vjoyId, 10)
+}
+
+func PushSave(vjoyId uint) bool {
+	return push(vjoyId, 12)
+}
+
+func ReleaseSave(vjoyId uint) bool {
+	return release(vjoyId, 12)
+}
+
+func PushReload(vjoyId uint) bool {
+	return push(vjoyId, 11)
+}
+
+func ReleaseReload(vjoyId uint) bool {
+	return release(vjoyId, 11)
+}
+
