@@ -15,13 +15,13 @@ Cero-macro uses vJoy SDK, or Cero-macro is a kind of front-end for vJoy SDK.
 ## How to use?
 
 1. First of all, setup vJoy v2.0 or lator.
-2. Download macro.exe from release page.
-3. Download vJoyInterface.dll from this page or vJoy official site (vJoy SDK).
-4. Place macro.exe and vJoyInterface.dll on the same directory.
-5. Run macro.exe.
-6. Open <http://localhost:8080/> in any browser.
-7. Input some macros in the textboxes of "player1" and "player2". Both or one of the textboxes should be filled.
-8. Push "submit" button then wait and see!
+2. Download macro.zip from release page.
+ * <https://github.com/cero-t/cero-macro.go/releases>
+3. Unzip macro.zip.
+4. Run macro.exe.
+5. Open <http://localhost:8080/> in any browser.
+6. Input some macros in the textboxes of "player1" and "player2". Both or one of the textboxes should be filled.
+7. Push "submit" button then wait and see!
 
 
 ## Macro references (currently for fighting game only)
