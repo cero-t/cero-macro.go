@@ -6,16 +6,24 @@ import (
 )
 
 const frame int64 = 1000000000 / 60
+var stopped bool
 
 func ProcessPair(vjoyId1 uint, operations1 *[]Operation, vjoyId2 uint, operations2 *[]Operation) {
+	stopped = false
 	start := time.Now().UnixNano() + 1000000000
 	go doProcess(vjoyId1, operations1, start)
 	go doProcess(vjoyId2, operations2, start)
 }
 
 func ProcessSingle(vjoyId uint, operations *[]Operation) {
-	doProcess(vjoyId, operations, 0)
+	stopped = false
+	go doProcess(vjoyId, operations, 0)
 }
+
+func Stop()  {
+	stopped = true
+}
+
 
 func doProcess(vjoyId uint, operations *[]Operation, start int64) {
 	preSleep := start - time.Now().UnixNano()
@@ -27,6 +35,10 @@ func doProcess(vjoyId uint, operations *[]Operation, start int64) {
 	afterLastSleep := time.Now().UnixNano()
 
 	for _, ope := range *operations {
+		if stopped {
+			break
+		}
+
 		if &ope == nil {
 			continue
 		}

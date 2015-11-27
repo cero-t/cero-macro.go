@@ -8,6 +8,7 @@ import (
 	"./http"
 	"flag"
 	"log"
+	"net/url"
 )
 
 var (
@@ -60,28 +61,36 @@ func serverMode() {
 	http.Server(serverFunction)
 }
 
-func serverFunction(player1 *string, player2 *string) string {
-	if !vjoy1Enabled && len(*player1) > 0 {
+func serverFunction(form *url.Values) string {
+	if len(form.Get("stop")) > 0 {
+		processor.Stop()
+		return "stopped"
+	}
+
+	player1 := form.Get("player1")
+	player2 := form.Get("player2")
+
+	if !vjoy1Enabled && len(player1) > 0 {
 		return "Commands for player1 are sent but vjoy1 is disabled."
 	}
-	if !vjoy2Enabled && len(*player2) > 0 {
+	if !vjoy2Enabled && len(player2) > 0 {
 		return "Commands for player2 are sent but vjoy2 is disabled."
 	}
 
-	if len(*player1) > 0 && len(*player2) > 0 {
+	if len(player1) > 0 && len(player2) > 0 {
 		log.Println("Run player1 & player2")
-		operations1 := converter.TextToOperations(player1)
-		operations2 := converter.TextToOperations(player2)
+		operations1 := converter.TextToOperations(&player1)
+		operations2 := converter.TextToOperations(&player2)
 		processor.ProcessPair(1, operations1, 2, operations2)
-	} else if len(*player1) > 0 {
+	} else if len(player1) > 0 {
 		log.Println("Run player1 only")
-		operations := converter.TextToOperations(player1)
+		operations := converter.TextToOperations(&player1)
 		processor.ProcessSingle(1, operations)
-	} else if len (*player2) > 0 {
+	} else if len(player2) > 0 {
 		log.Println("Run player2 only")
-		operations := converter.TextToOperations(player2)
+		operations := converter.TextToOperations(&player2)
 		processor.ProcessSingle(2, operations)
 	}
 
-	return ""
+	return "processed"
 }

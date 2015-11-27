@@ -9,6 +9,7 @@ import (
 	"os/signal"
 	"syscall"
 	"html/template"
+	"net/url"
 )
 
 type MacroForm struct {
@@ -27,29 +28,30 @@ func init() {
 	formTemplate = tmpl
 }
 
-func handle(requestHandler func(player1 *string, player2 *string) string) (mux *http.ServeMux) {
+func handle(requestHandler func(form *url.Values) string) (mux *http.ServeMux) {
 	mux = http.NewServeMux()
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {
 			r.ParseForm()
-			player1 := r.PostForm.Get("player1")
-			player2 := r.PostForm.Get("player2")
-			requestHandler(&player1, &player2)
-			fmt.Fprintf(w, "OK")
+			msg := requestHandler(&r.PostForm)
+			if len(msg) > 0 {
+				fmt.Fprintf(w, msg)
+			} else {
+				fmt.Fprintf(w, "OK")
+			}
 		} else {
-			_err := formTemplate.Execute(w, MacroForm{"",""})
+			_err := formTemplate.Execute(w, MacroForm{"", ""})
 			if _err != nil {
 				log.Println("Could not execute template.")
 				log.Println(_err)
 			}
 		}
-
 	})
 
 	return
 }
 
-func Server(requestHandler func(player1 *string, player2 *string) string) {
+func Server(requestHandler func(form *url.Values) string) {
 	ch := make(chan error)
 	listener, err := net.Listen("tcp", ":8080")
 	if err != nil {
