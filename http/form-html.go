@@ -55,7 +55,10 @@ function post(message) {
 </form>
 <br/>
 (for training mode only)<br/>
+<input type="submit" id="save_1" name="save" value="save (1P)" onclick="return sendName(this, 'player1');"/>
 <input type="submit" id="reload_1" name="reload" value="reload (1P)" onclick="return sendName(this, 'player1');"/>
+&nbsp;
+<input type="submit" id="save_2" name="save" value="save (2P)" onclick="return sendName(this, 'player2');"/>
 <input type="submit" id="reload_2" name="reload" value="reload (2P)" onclick="return sendName(this, 'player2');"/>
 <br/>
 <br/>
@@ -93,7 +96,6 @@ function post(message) {
 		</div>
 		<div>
 			<button id="pause_1" value="pause" class="commandButton" onclick="return send(this, 'player1');">Pause</button>
-			<button id="save_1" value="save" class="commandButton" onclick="return send(this, 'player1');">Save</button>
 		</div>
 	</div>
 	<div style="clear: both;"></div>
@@ -131,7 +133,6 @@ function post(message) {
 		</div>
 		<div>
 			<button id="pause_2" value="pause" class="commandButton" onclick="return send(this, 'player2');">Pause</button>
-			<button id="save_2" value="save" class="commandButton" onclick="return send(this, 'player2');">Save</button>
 		</div>
 	</div>
 	<div style="clear: both;"></div>
