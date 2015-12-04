@@ -47,6 +47,9 @@ func LinesToOperations(lines *[]string) *[]processor.Operation {
 			fmt.Println(err)
 			continue
 		}
+		if state == nil {
+			continue
+		}
 
 		operation := processor.Operation{}
 		if lastState.direction != state.direction {
@@ -129,18 +132,18 @@ func LinesToOperations(lines *[]string) *[]processor.Operation {
 
 func lineToState(line *string) (*State, error) {
 	if line == nil || len(*line) == 0 {
-		return nil, errors.New("line is nil or empty")
+		return nil, nil
 	}
 
 	pair := blanks.Split(*line, 2)
 	if len(pair) != 2 {
-		return nil, errors.New("line does not contain any blanks")
+		return nil, errors.New("line does not contain any blanks: " + *line)
 	}
 
 	keys := strings.Split(pair[0], ",")
 	frames, err := strconv.Atoi(pair[1])
 	if err != nil {
-		return nil, errors.New("second value must be integers")
+		return nil, errors.New("second value must be integer: " + *line)
 	}
 
 	state := State{}
