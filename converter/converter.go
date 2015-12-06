@@ -28,14 +28,23 @@ func LinesToOperations(lines *[]string) *[]processor.Operation {
 	buffer := make([]processor.Operation, 0, len(*lines))
 	var count int
 
+	var loopFirstState State
+	loopFirst := false
+
 	for _, v := range *lines {
 		if loopStart.MatchString(v) {
 			count, _ = strconv.Atoi(loopStart.FindStringSubmatch(v)[1])
 			operations = append(operations, buffer...)
 			buffer = make([]processor.Operation, 0, len(*lines))
+			loopFirst = true
 			continue
 		} else if strings.Index(v, "</loop>") == 0 {
-			for i := 0; i < count; i++ {
+			if count > 0 {
+				operations = append(operations, buffer...)
+			}
+
+			buffer[0] = *statesToOperation(loopFirstState, lastState)
+			for i := 1; i < count; i++ {
 				operations = append(operations, buffer...)
 			}
 			buffer = make([]processor.Operation, 0, len(*lines))
@@ -50,78 +59,13 @@ func LinesToOperations(lines *[]string) *[]processor.Operation {
 		if state == nil {
 			continue
 		}
-
-		operation := processor.Operation{}
-		if lastState.direction != state.direction {
-			operation.Direction = state.direction
+		if loopFirst {
+			loopFirstState = *state
+			loopFirst = false
 		}
 
-		if lastState.lp != state.lp {
-			if state.lp {
-				operation.Lp = 1
-			} else {
-				operation.Lp = -1
-			}
-		}
-		if lastState.mp != state.mp {
-			if state.mp {
-				operation.Mp = 1
-			} else {
-				operation.Mp = -1
-			}
-		}
-		if lastState.hp != state.hp {
-			if state.hp {
-				operation.Hp = 1
-			} else {
-				operation.Hp = -1
-			}
-		}
-		if lastState.lk != state.lk {
-			if state.lk {
-				operation.Lk = 1
-			} else {
-				operation.Lk = -1
-			}
-		}
-		if lastState.mk != state.mk {
-			if state.mk {
-				operation.Mk = 1
-			} else {
-				operation.Mk = -1
-			}
-		}
-		if lastState.hk != state.hk {
-			if state.hk {
-				operation.Hk = 1
-			} else {
-				operation.Hk = -1
-			}
-		}
-		if lastState.pause != state.pause {
-			if state.pause {
-				operation.Pause = 1
-			} else {
-				operation.Pause = -1
-			}
-		}
-		if lastState.save != state.save {
-			if state.save {
-				operation.Save = 1
-			} else {
-				operation.Save = -1
-			}
-		}
-		if lastState.reload != state.reload {
-			if state.reload {
-				operation.Reload = 1
-			} else {
-				operation.Reload = -1
-			}
-		}
-		operation.Frames = state.frames
-
-		buffer = append(buffer, operation)
+		operation := statesToOperation(*state, lastState)
+		buffer = append(buffer, *operation)
 		lastState = *state
 	}
 
@@ -129,6 +73,81 @@ func LinesToOperations(lines *[]string) *[]processor.Operation {
 
 	return &operations
 }
+
+func statesToOperation(state State, lastState State) *processor.Operation {
+	operation := processor.Operation{}
+	if lastState.direction != state.direction {
+		operation.Direction = state.direction
+	}
+
+	if lastState.lp != state.lp {
+		if state.lp {
+			operation.Lp = 1
+		} else {
+			operation.Lp = -1
+		}
+	}
+	if lastState.mp != state.mp {
+		if state.mp {
+			operation.Mp = 1
+		} else {
+			operation.Mp = -1
+		}
+	}
+	if lastState.hp != state.hp {
+		if state.hp {
+			operation.Hp = 1
+		} else {
+			operation.Hp = -1
+		}
+	}
+	if lastState.lk != state.lk {
+		if state.lk {
+			operation.Lk = 1
+		} else {
+			operation.Lk = -1
+		}
+	}
+	if lastState.mk != state.mk {
+		if state.mk {
+			operation.Mk = 1
+		} else {
+			operation.Mk = -1
+		}
+	}
+	if lastState.hk != state.hk {
+		if state.hk {
+			operation.Hk = 1
+		} else {
+			operation.Hk = -1
+		}
+	}
+	if lastState.pause != state.pause {
+		if state.pause {
+			operation.Pause = 1
+		} else {
+			operation.Pause = -1
+		}
+	}
+	if lastState.save != state.save {
+		if state.save {
+			operation.Save = 1
+		} else {
+			operation.Save = -1
+		}
+	}
+	if lastState.reload != state.reload {
+		if state.reload {
+			operation.Reload = 1
+		} else {
+			operation.Reload = -1
+		}
+	}
+	operation.Frames = state.frames
+
+	return &operation
+}
+
 
 func lineToState(line *string) (*State, error) {
 	if line == nil || len(*line) == 0 {
