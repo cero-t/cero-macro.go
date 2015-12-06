@@ -1,7 +1,8 @@
 package converter
+
 import (
-	"testing"
 	"../converter"
+	"testing"
 )
 
 func TestSimple(t *testing.T) {

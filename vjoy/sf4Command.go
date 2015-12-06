@@ -107,4 +107,3 @@ func PushReload(vjoyId uint) bool {
 func ReleaseReload(vjoyId uint) bool {
 	return release(vjoyId, 11)
 }
-

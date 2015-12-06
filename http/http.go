@@ -1,15 +1,15 @@
 package http
 
 import (
-	"net/http"
 	"fmt"
-	"net"
+	"html/template"
 	"log"
+	"net"
+	"net/http"
+	"net/url"
 	"os"
 	"os/signal"
 	"syscall"
-	"html/template"
-	"net/url"
 )
 
 type MacroForm struct {

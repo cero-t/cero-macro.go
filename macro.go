@@ -2,10 +2,10 @@ package main
 
 import (
 	"./converter"
-	"./processor"
-	"./vjoy"
 	"./file"
 	"./http"
+	"./processor"
+	"./vjoy"
 	"flag"
 	"log"
 	"net/url"

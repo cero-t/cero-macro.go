@@ -1,10 +1,10 @@
 package file
-import (
-	"os"
-	"log"
-	"bufio"
-)
 
+import (
+	"bufio"
+	"log"
+	"os"
+)
 
 func ReadAll(path string) *[]string {
 	file, _err := os.Open(path)

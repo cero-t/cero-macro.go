@@ -1,8 +1,8 @@
 package vjoy
 
 import (
-	"syscall"
 	"log"
+	"syscall"
 )
 
 const (
@@ -11,13 +11,13 @@ const (
 )
 
 var (
-	dll *syscall.DLL
-	procGetVJDStatus *syscall.Proc
-	procAcquireVJD *syscall.Proc
-	procSetAxis *syscall.Proc
-	procSetBtn *syscall.Proc
-	procResetVJD *syscall.Proc
-	procResetAll *syscall.Proc
+	dll               *syscall.DLL
+	procGetVJDStatus  *syscall.Proc
+	procAcquireVJD    *syscall.Proc
+	procSetAxis       *syscall.Proc
+	procSetBtn        *syscall.Proc
+	procResetVJD      *syscall.Proc
+	procResetAll      *syscall.Proc
 	procRelinquishVJD *syscall.Proc
 )
 
@@ -26,7 +26,7 @@ func loadDll() {
 		return
 	}
 
-	dll, _err := syscall.LoadDLL("vJoyInterface.dll");
+	dll, _err := syscall.LoadDLL("vJoyInterface.dll")
 	if _err != nil {
 		log.Fatal("load dll vJoyInterface.dll", _err)
 	}
@@ -60,7 +60,7 @@ func getVJDStatus(vjoyId uint) uintptr {
 		log.Fatal("error call proc GetVJDStatus", _err)
 	}
 
-	return result;
+	return result
 }
 
 func acquireVJD(vjoyId uint) bool {

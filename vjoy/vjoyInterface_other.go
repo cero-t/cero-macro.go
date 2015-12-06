@@ -1,4 +1,5 @@
 package vjoy
+
 import (
 	"log"
 	"strconv"
@@ -20,7 +21,7 @@ func loadDll() {
 
 func getVJDStatus(vjoyId uint) uintptr {
 	log.Println("getVJDStatus : " + strconv.Itoa(int(vjoyId)))
-	return 1;
+	return 1
 }
 
 func acquireVJD(vjoyId uint) bool {

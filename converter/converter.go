@@ -2,16 +2,16 @@ package converter
 
 import (
 	"../processor"
-	"strings"
-	"regexp"
-	"strconv"
 	"errors"
 	"fmt"
+	"regexp"
+	"strconv"
+	"strings"
 )
 
 var (
-	blanks = regexp.MustCompile(`\s+`)
-	nums = regexp.MustCompile(`^\d+$`)
+	blanks    = regexp.MustCompile(`\s+`)
+	nums      = regexp.MustCompile(`^\d+$`)
 	loopStart = regexp.MustCompile(`<loop\s(\d+)\s*>`)
 )
 
@@ -147,7 +147,6 @@ func statesToOperation(state State, lastState State) *processor.Operation {
 
 	return &operation
 }
-
 
 func lineToState(line *string) (*State, error) {
 	if line == nil || len(*line) == 0 {

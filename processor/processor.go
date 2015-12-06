@@ -6,6 +6,7 @@ import (
 )
 
 const frame int64 = 1000000000 / 60
+
 var stopped bool
 
 func ProcessPair(vjoyId1 uint, operations1 *[]Operation, vjoyId2 uint, operations2 *[]Operation) {
@@ -20,10 +21,9 @@ func ProcessSingle(vjoyId uint, operations *[]Operation) {
 	go doProcess(vjoyId, operations, 0)
 }
 
-func Stop()  {
+func Stop() {
 	stopped = true
 }
-
 
 func doProcess(vjoyId uint, operations *[]Operation, start int64) {
 	preSleep := start - time.Now().UnixNano()
@@ -43,15 +43,15 @@ func doProcess(vjoyId uint, operations *[]Operation, start int64) {
 			continue
 		}
 
-		processOperation(vjoyId, ope);
+		processOperation(vjoyId, ope)
 
 		// adjust 60fps
 		beforeSleep := time.Now().UnixNano()
-		var sleepTime int64 = int64(ope.Frames) * frame - (beforeSleep - afterLastSleep) - delta;
+		var sleepTime int64 = int64(ope.Frames)*frame - (beforeSleep - afterLastSleep) - delta
 
 		time.Sleep(time.Duration(sleepTime))
 		afterLastSleep = time.Now().UnixNano()
-		delta = afterLastSleep - beforeSleep - sleepTime;
+		delta = afterLastSleep - beforeSleep - sleepTime
 	}
 
 	vjoy.ReleaseLP(vjoyId)
@@ -67,7 +67,7 @@ func doProcess(vjoyId uint, operations *[]Operation, start int64) {
 }
 
 func processOperation(vjoyId uint, operation Operation) {
-	if (operation.Direction != 0) {
+	if operation.Direction != 0 {
 		if operation.Direction == 1 {
 			vjoy.Direction1(vjoyId)
 		} else if operation.Direction == 2 {
@@ -89,72 +89,72 @@ func processOperation(vjoyId uint, operation Operation) {
 		}
 	}
 
-	if (operation.Lp != 0) {
-		if (operation.Lp == 1) {
+	if operation.Lp != 0 {
+		if operation.Lp == 1 {
 			vjoy.PushLP(vjoyId)
 		} else {
 			vjoy.ReleaseLP(vjoyId)
 		}
 	}
 
-	if (operation.Mp != 0) {
-		if (operation.Mp == 1) {
+	if operation.Mp != 0 {
+		if operation.Mp == 1 {
 			vjoy.PushMP(vjoyId)
 		} else {
 			vjoy.ReleaseMP(vjoyId)
 		}
 	}
 
-	if (operation.Hp != 0) {
-		if (operation.Hp == 1) {
+	if operation.Hp != 0 {
+		if operation.Hp == 1 {
 			vjoy.PushHP(vjoyId)
 		} else {
 			vjoy.ReleaseHP(vjoyId)
 		}
 	}
 
-	if (operation.Lk != 0) {
-		if (operation.Lk == 1) {
+	if operation.Lk != 0 {
+		if operation.Lk == 1 {
 			vjoy.PushLK(vjoyId)
 		} else {
 			vjoy.ReleaseLK(vjoyId)
 		}
 	}
 
-	if (operation.Mk != 0) {
-		if (operation.Mk == 1) {
+	if operation.Mk != 0 {
+		if operation.Mk == 1 {
 			vjoy.PushMK(vjoyId)
 		} else {
 			vjoy.ReleaseMK(vjoyId)
 		}
 	}
 
-	if (operation.Hk != 0) {
-		if (operation.Hk == 1) {
+	if operation.Hk != 0 {
+		if operation.Hk == 1 {
 			vjoy.PushHK(vjoyId)
 		} else {
 			vjoy.ReleaseHK(vjoyId)
 		}
 	}
 
-	if (operation.Pause != 0) {
-		if (operation.Pause == 1) {
+	if operation.Pause != 0 {
+		if operation.Pause == 1 {
 			vjoy.PushPause(vjoyId)
 		} else {
 			vjoy.ReleasePause(vjoyId)
 		}
 	}
 
-	if (operation.Save != 0) {
-		if (operation.Save == 1) {
+	if operation.Save != 0 {
+		if operation.Save == 1 {
 			vjoy.PushSave(vjoyId)
 		} else {
 			vjoy.ReleaseSave(vjoyId)
 		}
 	}
 
-	if (operation.Reload != 0) {
-		if (operation.Reload == 1) {
+	if operation.Reload != 0 {
+		if operation.Reload == 1 {
 			vjoy.PushReload(vjoyId)
 		} else {
 			vjoy.ReleaseReload(vjoyId)
