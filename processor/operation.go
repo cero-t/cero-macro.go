@@ -11,5 +11,11 @@ type Operation struct {
 	Pause     int8
 	Save      int8
 	Reload    int8
+	Start     int8
+	Back      int8
+	Record    int8
+	Play      int8
+	Lb        int8
+	Lt        int8
 	Frames    uint16
 }

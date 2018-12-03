@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-const frame int64 = 1000000000 / 60
+const frame int64 = 100000000000 / 5994
 
 var stopped bool
 
@@ -63,6 +63,12 @@ func doProcess(vjoyId uint, operations *[]Operation, start int64) {
 	vjoy.ReleasePause(vjoyId)
 	vjoy.ReleaseSave(vjoyId)
 	vjoy.ReleaseReload(vjoyId)
+	vjoy.ReleaseStart(vjoyId)
+	vjoy.ReleaseBack(vjoyId)
+	vjoy.ReleaseRecord(vjoyId)
+	vjoy.ReleasePlay(vjoyId)
+	vjoy.ReleaseLb(vjoyId)
+	vjoy.ReleaseLt(vjoyId)
 	vjoy.Direction5(vjoyId)
 }
 
@@ -158,6 +164,54 @@ func processOperation(vjoyId uint, operation Operation) {
 			vjoy.PushReload(vjoyId)
 		} else {
 			vjoy.ReleaseReload(vjoyId)
+		}
+	}
+
+	if operation.Start != 0 {
+		if operation.Start == 1 {
+			vjoy.PushStart(vjoyId)
+		} else {
+			vjoy.ReleaseStart(vjoyId)
+		}
+	}
+
+	if operation.Back != 0 {
+		if operation.Back == 1 {
+			vjoy.PushBack(vjoyId)
+		} else {
+			vjoy.ReleaseBack(vjoyId)
+		}
+	}
+
+	if operation.Record != 0 {
+		if operation.Record == 1 {
+			vjoy.PushRecord(vjoyId)
+		} else {
+			vjoy.ReleaseRecord(vjoyId)
+		}
+	}
+
+	if operation.Play != 0 {
+		if operation.Play == 1 {
+			vjoy.PushPlay(vjoyId)
+		} else {
+			vjoy.ReleasePlay(vjoyId)
+		}
+	}
+
+	if operation.Lb != 0 {
+		if operation.Lb == 1 {
+			vjoy.PushLb(vjoyId)
+		} else {
+			vjoy.ReleaseLb(vjoyId)
+		}
+	}
+
+	if operation.Lt != 0 {
+		if operation.Lt == 1 {
+			vjoy.PushLt(vjoyId)
+		} else {
+			vjoy.ReleaseLt(vjoyId)
 		}
 	}
 }

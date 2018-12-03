@@ -143,6 +143,49 @@ func statesToOperation(state State, lastState State) *processor.Operation {
 			operation.Reload = -1
 		}
 	}
+	if lastState.start != state.start {
+		if state.start {
+			operation.Start = 1
+		} else {
+			operation.Start = -1
+		}
+	}
+	if lastState.back != state.back {
+		if state.back {
+			operation.Back = 1
+		} else {
+			operation.Back = -1
+		}
+	}
+	if lastState.record != state.record {
+		if state.record {
+			operation.Record = 1
+		} else {
+			operation.Record = -1
+		}
+	}
+	if lastState.play != state.play {
+		if state.play {
+			operation.Play = 1
+		} else {
+			operation.Play = -1
+		}
+	}
+	if lastState.lb != state.lb {
+		if state.lb {
+			operation.Lb = 1
+		} else {
+			operation.Lb = -1
+		}
+	}
+	if lastState.lt != state.lt {
+		if state.lt {
+			operation.Lt = 1
+		} else {
+			operation.Lt = -1
+		}
+	}
+
 	operation.Frames = state.frames
 
 	return &operation
@@ -189,6 +232,18 @@ func lineToState(line *string) (*State, error) {
 			state.save = true
 		} else if v == "reload" {
 			state.reload = true
+		} else if v == "start" {
+			state.pause = true
+		} else if v == "back" {
+			state.back = true
+		} else if v == "record" {
+			state.record = true
+		} else if v == "play" {
+			state.play = true
+		} else if v == "lb" {
+			state.lb = true
+		} else if v == "lt" {
+			state.lt = true
 		}
 	}
 

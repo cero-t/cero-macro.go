@@ -20,7 +20,7 @@ type MacroForm struct {
 var formTemplate *template.Template
 
 func init() {
-	tmpl, _err := template.New("formHtml").Parse(formHtml())
+	tmpl, _err := template.New("formHtml").Parse(formFexl())
 	if _err != nil {
 		log.Println("Could not parse template.")
 		log.Fatal(_err)

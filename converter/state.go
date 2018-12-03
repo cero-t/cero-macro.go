@@ -11,5 +11,11 @@ type State struct {
 	pause     bool
 	save      bool
 	reload    bool
+	start     bool
+	back      bool
+	record    bool
+	play      bool
+	lb        bool
+	lt        bool
 	frames    uint16
 }
